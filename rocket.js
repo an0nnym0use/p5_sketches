@@ -6,8 +6,8 @@ function setup() {
     let cnv = createCanvas(400, 400);
     cnv.position(0, 0)
     noStroke();
-    //frameRate(60)
-    //createLoop({duration:2.55, gif:true})
+    // frameRate(60)
+    // createLoop({duration:2.55, gif:true})
 }
 
 var x = 400;

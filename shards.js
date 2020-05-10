@@ -20,8 +20,8 @@ function setup() {
     bgLight = color(1, 0, 51)
     setGradient(bgDark, bgLight);
     colorMode(RGB);
-    //frameRate(30);
-    //createLoop({duration:20, gif:true});
+    // frameRate(30);
+    // createLoop({duration:10, gif:true});
 
     for (i = 0; i < shardCount; i++) {
         shards.push(new Shard());

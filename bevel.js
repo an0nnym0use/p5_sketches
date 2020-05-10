@@ -19,6 +19,8 @@ function setup() {
     cnv.style('z-index','-1');
     background(255);
     noStroke();
+    // frameRate(30)
+    // createLoop({duration:10, gif:true})
 }
 
 function limitZ() {

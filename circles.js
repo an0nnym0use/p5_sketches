@@ -10,6 +10,9 @@ function setup() {
     let cnv = createCanvas(windowWidth, windowHeight);
     cnv.position(0, 0);
     cnv.style('z-index','-1');
+    //calcLCMPrep();
+    // frameRate(30);
+    // createLoop({duration:10, gif:true});
 }
 
 const PI = Math.PI;
@@ -26,6 +29,16 @@ function speedFromMouse() {
     }
 }
 
+//function calcLCMPrep() {
+//    nums = [-3,1,6,-2,3.2,-2.1,4.5,-1.2,-5,2,7,-2.8]
+//    for (i = 0; i < 12; i++) {
+//        var x = nums[i] / (2*PI);
+//        nums[i] = x*100000000000000000;
+//    }
+//    var listStr = nums.join(", ");
+//    console.log(listStr);
+//}
+
 function draw() {
     background(0);
     fill(255);
@@ -39,6 +52,9 @@ function draw() {
     Where n = ring # (outwards); p = multiplier to c; q = frequency of sine wave.
     Optional Math.abs(c*q*PI) makes the leading/trailing edge bounce.
     NOTE: which edge is the leading/trailing reverses with negative values of p.
+
+    After 1.1228974263151052e+110 rotations at speed c, it repeats!
+
     /*/
 
     stroke(255, 0, 0); // Arc 1
