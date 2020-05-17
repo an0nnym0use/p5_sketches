@@ -17,7 +17,7 @@ function setup() {
     scDark = color(187, 134, 202);
     scLight = color(253, 220, 255);
     bgDark = color(0, 0, 0);
-    bgLight = color(1, 0, 51)
+    bgLight = color(1, 0, 51);
     setGradient(bgDark, bgLight);
     colorMode(RGB);
     // frameRate(30);

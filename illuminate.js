@@ -2,10 +2,6 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 
-//vars
-// var mouseFactor = 1;
-// noiseSeed(round(random()*1E6));
-
 function setup() {
     let cnv = createCanvas(windowWidth, windowHeight);
     cnv.position(0, 0);
@@ -13,8 +9,8 @@ function setup() {
     background(0);
     noStroke();
 
-    frameRate(30)
-    createLoop({duration:8, gif:true})
+    // frameRate(30);
+    // createLoop({duration:7, gif:true});
 }
 
 function draw() {
