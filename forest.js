@@ -17,9 +17,6 @@ function setup() {
 
     stroke(0);
     strokeWeight(thickness);
-
-    frameRate(5);
-    createLoop({duration:5, gif:false});
 }
 
 function draw() {
