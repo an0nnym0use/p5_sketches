@@ -1,0 +1,11 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+.oversketch {
+    color: white;
+    font-size: 36px;
+    text-align: left;
+    vertical-align: top;
+}
