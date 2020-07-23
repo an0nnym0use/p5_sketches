@@ -121,6 +121,7 @@ function draw() {
 
     featuresRaw.push([elevs, 0.8, "flag"]);
     featuresRaw.push([elevs, 0.35, "flag"]);
+    featuresRaw.push([elevs, 0.6, "treesmoller"]);
     drawFeatures();
 
     //Hill 3
@@ -149,6 +150,7 @@ function draw() {
 
     featuresRaw.push([elevs, 0.98, "flag"]);
     featuresRaw.push([elevs, 0.1, "flag"]);
+    featuresRaw.push([elevs, 0.7, "treesmol"]);
     drawFeatures();
 
     //Hill 4
@@ -180,6 +182,9 @@ function draw() {
     featuresRaw.push([elevs, 0.7, "tepee"]);
     featuresRaw.push([elevs, 0.9, "tepee"]);
     featuresRaw.push([elevs, 0.2, "flag"]);
+    featuresRaw.push([elevs, 0.5, "tree"]);
+    featuresRaw.push([elevs, 0.4, "treesmol"]);
+    featuresRaw.push([elevs, 0.8, "tree"]);
     drawFeatures();
 
     // DEBUG LINES
@@ -215,6 +220,29 @@ function fog(y, a) {
     }
 }
 
+function tree(length, branchAngle, detail, lenDecay, thickness, x, y) {
+    translate(x, y); //Sets base of tree to specified coords
+    strokeWeight(thickness);
+    line(0, 0, 0, -length);
+    translate(0, -length); //Now it draws from the ends of the newest line/s
+    if (length>detail+random(2)) { //Detail = minimum branch length (resolution)
+        push();
+        rotate(branchAngle*random(0.7, 2));
+        tree(length*(lenDecay+random(0.1)), branchAngle, detail, lenDecay, thickness-0.5, 0, 0); //Length decreases
+        pop();
+        push();
+        rotate(-branchAngle*random(0.7, 2)); //Other side = negative angle
+        tree(length*(lenDecay+random(0.2)), branchAngle, detail, lenDecay, thickness-0.5, 0, 0);
+        pop();
+        if (random()>0.7) {
+            push();
+            rotate(random(-branchAngle, branchAngle)); //Middle
+            tree(length*(lenDecay+random(0.2)), branchAngle, detail, lenDecay, thickness-0.5, 0, 0);
+            pop();
+        }
+    }
+}
+
 function drawFeatures() {
     for (i in featuresRaw) {
         let pArray = featuresRaw[i][0];
@@ -223,6 +251,7 @@ function drawFeatures() {
         let x = pArray.slice(floor(pArray.length*heightPerc))[0].x;
         let y = pArray.slice(floor(pArray.length*heightPerc))[0].y;
         let type = featuresRaw[i][2];
+        console.log(x, y);
 
         features.push({
             x: x,
@@ -231,18 +260,13 @@ function drawFeatures() {
         });
     }
 
-    for (i in features) {
-        for (let j in features) {
-            if (i!=j && abs(features[i].x-features[j].x) < 50) {
-                if (features[j.type]!="glowdust"||features[i.type]!="glowdust") {
-                    features.pop(j);
-                }
-            }
-        }
+    let featuresUnique = removeOverlap(features, "x", 50);
 
-        let x = features[i].x;
-        let y = features[i].y;
-        let type = features[i].type;
+    for (let i in featuresUnique) {
+        console.log('hi', i, featuresUnique) ///////////////////////////////
+        let x = featuresUnique[i].x;
+        let y = featuresUnique[i].y;
+        let type = featuresUnique[i].type;
 
         push();
             fill('#000000');
@@ -264,13 +288,14 @@ function drawFeatures() {
                         strokeWeight(1);
                         triangle(x+dir, y-h, x+random(5, 14)*dir, y-h+3, x+dir, y-h+6); //Flag
                         break;
-                    case "flag":
-                        let dir = map(round(random()), 0,1, -1,1) //-1 = Left, +1 = Right
-                        let h = random(22, 38);
-                        strokeWeight(3);
-                        line(x, y+20, x, y-h); //Pole
-                        strokeWeight(1);
-                        triangle(x+dir, y-h, x+random(5, 14)*dir, y-h+3, x+dir, y-h+6); //Flag
+                    case "tree":
+                        tree(28, PI*0.1, 9, 0.65, 2.5, x, y+10);
+                        break;
+                    case "treesmol":
+                        tree(22, PI*0.1, 8, 0.65, 2.2, x, y+8);
+                        break;
+                    case "treesmoller":
+                        tree(16, PI*0.1, 7, 0.65, 1.8, x, y+6);
                         break;
                 }
             }
@@ -278,7 +303,25 @@ function drawFeatures() {
     }
 
     //Clear up for next hill
-    console.log(features);
     featuresRaw = [];
     features = [];
+    featuresUnique = [];
+}
+
+function removeOverlap(array, key, tol) {
+    array.push(null);
+    result = [];
+    result.push(array[0]);
+    // console.log("result1", result);
+    for (i=1;i<array.length-1;i++) {
+        // console.log("index", i, "of", array.length-1);
+        if (abs( array[i][key] - result[result.length-1][key] ) > tol) {
+            result.push(array[i]);
+        }
+        // console.log("array[i][key]", array[i][key]);
+        // console.log("result[(-1)]", result[result.length-1][key]);
+        // console.log("difference", array[i][key]-result[result.length-1][key]);
+    }
+    // console.log("result2", result)
+    return result;
 }
